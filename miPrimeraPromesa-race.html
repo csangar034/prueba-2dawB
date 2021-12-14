@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Mi primera promesa - uso race</title>
+
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+        
+        <script>
+            'use strict'
+
+            document.addEventListener("DOMContentLoaded", function() { 
+                var p1 = new Promise( (resolve, reject) => { 
+                    setTimeout(resolve, 500, "uno"); 
+                });
+                var p2 = new Promise( (resolve, reject) => { 
+                    setTimeout(resolve, 100, "dos"); 
+                });
+
+                Promise.race([p1, p2]).then( value => {
+                    console.log('Resolved:',value);
+                    // Ambas se resuelven, pero la p2 antes.
+                });
+
+                // Ejemplo con un resolve y un reject en el mismo método race.
+                var p3 = new Promise( (resolve, reject) => { 
+                    setTimeout(resolve, 100, "tres");
+                });
+                var p4 = new Promise( (resolve, reject) => { 
+                    setTimeout(reject, 500, "cuatro"); 
+                });
+
+                Promise.race([p3, p4]).then( value => {
+                    console.log('Resolved:',value); 
+                    // p3 es mas rápida, así que se resuelve el race
+                }, reason => {
+                    console.log('Rejected:',reason);
+                    // No es llamado
+                });
+
+                var p5 = new Promise( (resolve, reject) => { 
+                    setTimeout(resolve, 500, "cinoc"); 
+                });
+                var p6 = new Promise( (resolve, reject) => { 
+                    setTimeout(reject, 100, "seis");
+                });
+
+                Promise.race([p5, p6]).then( value => {
+                    console.log('Resolved:',value);
+                    // No es llamado
+                }, reason => {
+                    console.log('Rejected:',reason);
+                    // p6 es mas rápida, así que se rechaza
+                });
+            });
+        </script>
+    </head>
+    <body>
+        <div class="container container-fluid">
+            <div class="row">
+                <h1>Mi primera promesa - uso race</h1>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div id="log"></div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+    <head lant="es">
+        <title>UD6: Lanzar dados</title>
+        <script>
+            const iterations = 10;
+            const numbers = [];
+
+            /* Implementación con callbacks */
+            const doTask = (iterations, callback) => {
+                const numbers = [];
+                for (let i = 0; i < iterations; i++) {
+                    const number = 1 + Math.floor(Math.random() * 6);
+                    numbers.push(number);
+                    if (number === 6) {
+                        /* Error, se ha sacado un 6 */
+                        callback({
+                            error: true,
+                            message: "Se ha sacado un 6"
+                        });
+                        return;
+                    }
+                }
+                /* Termina bucle y no se ha sacado 6 */
+                return callback(
+                    null, 
+                    {
+                        error: false,
+                        value: numbers
+                    }
+                );
+            }
+
+            doTask(
+                10, 
+                function(err, result) {
+                    if (err) {
+                        console.error(err.message);
+                        return;
+                    }
+                    console.log("Tiradas correctas: ", result.value);
+                }
+            );
+        </script>
+    </head>
+    <body>
+        <h1>UD6: Lanzar dados</h1>
+    </body>
+</html>

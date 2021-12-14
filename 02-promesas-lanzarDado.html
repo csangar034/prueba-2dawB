@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+    <head lant="es">
+        <title>UD6: Lanzar dados</title>
+        <script>
+            /* Implementación con promesas */
+            const doTask = (iterations) => new Promise((resolve, reject) => {
+                const numbers = [];
+                
+                for (let i = 0; i < iterations; i++) {
+                    const number = 1 + Math.floor(Math.random() * 6);
+                    numbers.push(number);
+
+                    if (number === 6) {
+                        reject(
+                            {
+                                error: true,
+                                message: "Se ha sacado un 6"
+                            }
+                        );
+                    }
+                }
+                resolve(
+                    {
+                        error: false,
+                        value: numbers
+                    }
+                );
+            });
+
+            doTask(10)
+                .then(result => console.log("Tiradas correctas: ", result.value))
+                .catch(err => console.error("Ha ocurrido algo: ", err.message));
+        </script>
+    </head>
+    <body>
+        <h1>UD6: Lanzar dados</h1>
+    </body>
+</html>
